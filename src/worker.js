@@ -237,6 +237,13 @@ function serveWidget(env) {
         continue;
       }
 
+      // Enhanced debugging for common issues
+      if (postId === 'unknown') {
+        console.warn('Ghost Reactions: Post ID is "unknown". This usually means the slug extraction failed. Check your integration code.');
+        console.warn('Current URL:', window.location.href);
+        console.warn('Expected format: Use the actual post slug instead of "unknown"');
+      }
+
       // Get current reactions
       const counts = await getReactions(postId);
       const userReactions = JSON.parse(localStorage.getItem(\`reactions_\${postId}\`) || '[]');
