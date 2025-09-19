@@ -1,0 +1,21 @@
+name = "ghost-reactions"
+main = "src/worker.js"
+compatibility_date = "2024-05-10"
+
+# CORRECTED: Durable Objects Binding Configuration
+[durable_objects]
+bindings = [
+  { name = "REACTION_COUNTER", class_name = "ReactionCounter" }
+]
+
+# CRITICAL: Migration to register the class with Cloudflare
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["ReactionCounter"]
+
+[vars]
+ALLOWED_ORIGINS = "https://neurohackingly.com,https://www.neurohackingly.com"
+
+# For local development
+[env.development]
+vars = { ALLOWED_ORIGINS = "http://localhost:2368,http://localhost:3000" }

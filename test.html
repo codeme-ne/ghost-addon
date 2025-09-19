@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ghost Reactions Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .post-card {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+
+    .post-meta {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .post-content {
+      color: #444;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    .divider {
+      height: 1px;
+      background: #e0e0e0;
+      margin: 30px 0;
+    }
+
+    .test-controls {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+
+    .control-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #5a67d8;
+    }
+
+    #status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      background: #f0f0f0;
+      color: #333;
+      font-family: monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+
+    .success {
+      background: #d4edda !important;
+      color: #155724 !important;
+    }
+
+    .error {
+      background: #f8d7da !important;
+      color: #721c24 !important;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      }
+
+      .post-card, .test-controls {
+        background: #2a2a2a;
+      }
+
+      h1, h2, .post-content {
+        color: #e0e0e0;
+      }
+
+      .post-meta, label {
+        color: #999;
+      }
+
+      .divider {
+        background: #444;
+      }
+
+      input, select {
+        background: #333;
+        border-color: #555;
+        color: #e0e0e0;
+      }
+
+      #status {
+        background: #333;
+        color: #e0e0e0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Sample Blog Post -->
+    <article class="post-card">
+      <h1>Building a Privacy-First Reactions System for Ghost</h1>
+      <div class="post-meta">By neurohackingly • January 19, 2025 • 5 min read</div>
+
+      <div class="post-content">
+        <p>
+          We're excited to introduce a new lightweight reactions system for Ghost CMS
+          that respects user privacy while providing valuable engagement metrics.
+        </p>
+        <p>
+          This system uses Cloudflare's edge network to deliver lightning-fast performance
+          without cookies or tracking. It's completely GDPR compliant and free to use.
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Reactions Widget Container -->
+      <div data-ghost-reactions="test-post-001"></div>
+    </article>
+
+    <!-- Test Controls -->
+    <div class="test-controls">
+      <h2>🧪 Test Controls</h2>
+
+      <div class="control-group">
+        <label for="worker-url">Worker URL:</label>
+        <input type="text" id="worker-url" value="http://localhost:8787" placeholder="https://your-worker.workers.dev">
+      </div>
+
+      <div class="control-group">
+        <label for="post-id">Post ID:</label>
+        <input type="text" id="post-id" value="test-post-001" placeholder="Enter post ID">
+      </div>
+
+      <div class="control-group">
+        <button onclick="loadWidget()">Load Widget</button>
+        <button onclick="clearLocalStorage()">Clear Local Storage</button>
+        <button onclick="testApi()">Test API</button>
+      </div>
+
+      <div id="status">Ready to test...</div>
+    </div>
+  </div>
+
+  <script>
+    let widgetLoaded = false;
+
+    function loadWidget() {
+      const workerUrl = document.getElementById('worker-url').value;
+      const postId = document.getElementById('post-id').value;
+
+      // Update post ID in the container
+      const container = document.querySelector('[data-ghost-reactions]');
+      container.setAttribute('data-ghost-reactions', postId);
+
+      // Remove existing widget if any
+      const existingWidget = container.querySelector('.ghost-reactions-widget');
+      if (existingWidget) {
+        existingWidget.remove();
+      }
+
+      // Remove old script tag if exists
+      const oldScript = document.getElementById('reactions-script');
+      if (oldScript) {
+        oldScript.remove();
+      }
+
+      // Load new widget script
+      const script = document.createElement('script');
+      script.id = 'reactions-script';
+      script.src = `${workerUrl}/widget.js`;
+      script.onload = () => {
+        widgetLoaded = true;
+        updateStatus('Widget loaded successfully!', 'success');
+      };
+      script.onerror = () => {
+        updateStatus('Failed to load widget. Check your Worker URL.', 'error');
+      };
+      document.body.appendChild(script);
+    }
+
+    function clearLocalStorage() {
+      const keys = Object.keys(localStorage).filter(k => k.startsWith('reactions_') || k === 'ghost_reactions_user_id');
+      keys.forEach(key => localStorage.removeItem(key));
+      updateStatus(`Cleared ${keys.length} items from localStorage`, 'success');
+    }
+
+    async function testApi() {
+      const workerUrl = document.getElementById('worker-url').value;
+      const postId = document.getElementById('post-id').value;
+
+      try {
+        // Test GET endpoint
+        const getResponse = await fetch(`${workerUrl}/api/reactions/${postId}`);
+        const counts = await getResponse.json();
+
+        // Test POST endpoint
+        const postResponse = await fetch(`${workerUrl}/api/reactions/${postId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            reaction: 'heart',
+            userId: 'test-user-' + Date.now()
+          })
+        });
+        const result = await postResponse.json();
+
+        updateStatus(`API Test Results:
+GET /api/reactions/${postId}
+${JSON.stringify(counts, null, 2)}
+
+POST /api/reactions/${postId}
+${JSON.stringify(result, null, 2)}`, 'success');
+      } catch (err) {
+        updateStatus(`API Test Failed: ${err.message}`, 'error');
+      }
+    }
+
+    function updateStatus(message, type = '') {
+      const status = document.getElementById('status');
+      status.textContent = message;
+      status.className = type;
+    }
+
+    // Auto-load widget on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(loadWidget, 500);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "ghost-reactions",
+  "version": "1.0.0",
+  "description": "Lightweight reactions system for Ghost CMS",
+  "main": "src/worker.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "keywords": [
+    "ghost",
+    "cms",
+    "reactions",
+    "cloudflare",
+    "workers"
+  ],
+  "author": "neurohackingly",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^4.38.0"
+  }
+}
