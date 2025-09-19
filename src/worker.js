@@ -152,7 +152,21 @@ function serveWidget(env) {
   'use strict';
 
   // Configuration
-  const API_URL = '${env.WORKER_URL || 'https://ghost-reactions.workers.dev'}';
+  const API_URL = (() => {
+    try {
+      // Prefer the script element that loaded this widget
+      const current = document.currentScript;
+      if (current && current.src) return new URL(current.src).origin;
+      // Fallback: find any script ending with /widget.js
+      const scripts = Array.from(document.getElementsByTagName('script'));
+      const found = scripts.find(s => s.src && /\/widget\.js(\?|$)/.test(s.src));
+      if (found) return new URL(found.src).origin;
+    } catch (_) {
+      /* ignore */
+    }
+    // Final fallback: use window.location origin (works in local dev with same-origin serving)
+    return window.location.origin;
+  })();
   const REACTIONS = ['heart', 'like', 'clap'];
   const ICONS = {
     heart: '❤️',

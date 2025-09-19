@@ -6,6 +6,7 @@ A lightweight, privacy-friendly reactions system for Ghost CMS. Add quick engage
 ![Ghost](https://img.shields.io/badge/ghost-6.0%2B-green)
 ![License](https://img.shields.io/badge/license-MIT-purple)
 ![Deploy](https://github.com/codeme-ne/ghost-addon/actions/workflows/deploy.yml/badge.svg)
+[![Live](https://img.shields.io/badge/worker-live-green)](https://ghost-reactions.zangerl-luk.workers.dev)
 
 ## ✨ Features
 
@@ -115,6 +116,21 @@ Setup steps:
 2. Add `CLOUDFLARE_API_TOKEN` with a Cloudflare API token that has “Edit Workers” permission
 3. Ensure `package-lock.json` is committed (required for `npm ci` in CI)
 4. Push a commit to trigger deploy or run the workflow manually
+
+## 🧪 Try locally
+
+You can test the widget end-to-end with the included `test.html`:
+
+1. Install dependencies
+  - `npm install`
+2. Start the Worker locally
+  - `npm run dev` (defaults to http://localhost:8787)
+3. Open `test.html` in your browser (no server required)
+4. Ensure the "Worker URL" field is `http://localhost:8787` and click "Load Widget"
+
+Notes:
+- Local CORS is already permitted via `wrangler.toml` under `[env.development].vars.ALLOWED_ORIGINS`.
+- The Durable Object class is registered via migrations in `wrangler.toml`.
 
 ## 🎨 Customization
 
