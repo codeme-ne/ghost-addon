@@ -19,14 +19,16 @@ node_modules/
 *.ntvs*
 *.njsproj
 *.sln
+# Editor swap/backup files
 *.sw?
+*.swp
+*~
 
 # OS specific
 .DS_Store
 Thumbs.db
 
 # Cloudflare
-.wrangler/
 dist/
 worker/
 
@@ -36,5 +38,9 @@ out/
 
 # Package managers
 # Keep lockfiles in repo for reproducible CI installs
-# package-lock.json
-# yarn.lock
+!package-lock.json
+!yarn.lock
+
+# Local tooling/state to ignore
+.taskmaster/
+.wrangler/

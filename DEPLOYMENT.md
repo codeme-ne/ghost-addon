@@ -94,11 +94,11 @@ jobs:
       - run: npm install
       - run: npx wrangler deploy
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 ```
 
 Füge dann in GitHub Settings → Secrets:
-- `CF_API_TOKEN` mit deinem Cloudflare API Token
+- `CLOUDFLARE_API_TOKEN` mit deinem Cloudflare API Token (Permission: Edit Workers)
 
 ## 🧪 Testen
 

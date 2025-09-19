@@ -5,6 +5,7 @@ A lightweight, privacy-friendly reactions system for Ghost CMS. Add quick engage
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![Ghost](https://img.shields.io/badge/ghost-6.0%2B-green)
 ![License](https://img.shields.io/badge/license-MIT-purple)
+![Deploy](https://github.com/codeme-ne/ghost-addon/actions/workflows/deploy.yml/badge.svg)
 
 ## ✨ Features
 
@@ -71,8 +72,8 @@ Add to your `post.hbs` template:
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/ghost-reactions.git
-cd ghost-reactions
+git clone https://github.com/codeme-ne/ghost-addon.git
+cd ghost-addon
 ```
 
 2. **Install dependencies**
@@ -88,7 +89,7 @@ Edit `wrangler.toml`:
 ALLOWED_ORIGINS = "https://your-ghost-site.com"
 ```
 
-4. **Deploy to Cloudflare**
+4. **Deploy to Cloudflare (local)**
 ```bash
 npm run deploy
 ```
@@ -103,6 +104,17 @@ https://ghost-reactions.your-account.workers.dev
 6. **Update the widget URL in your Ghost site**
 
 Replace `https://your-worker.workers.dev` with your actual worker URL.
+
+### CI/CD (GitHub Actions)
+
+This repo includes a workflow at `.github/workflows/deploy.yml` that deploys on pushes to `main` or `master` and on manual dispatch.
+
+Setup steps:
+
+1. In GitHub → Settings → Secrets and variables → Actions → New repository secret
+2. Add `CLOUDFLARE_API_TOKEN` with a Cloudflare API token that has “Edit Workers” permission
+3. Ensure `package-lock.json` is committed (required for `npm ci` in CI)
+4. Push a commit to trigger deploy or run the workflow manually
 
 ## 🎨 Customization
 
@@ -233,6 +245,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+See also: [CONTRIBUTING.md](CONTRIBUTING.md)
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -245,9 +259,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 💬 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/ghost-reactions/issues)
-- **Discussions**: [Ghost Forum](https://forum.ghost.org)
-- **Email**: support@neurohackingly.com
+- Issues: https://github.com/codeme-ne/ghost-addon/issues
+- Discussions: https://forum.ghost.org
+- Email: support@neurohackingly.com
 
 ## 🚦 Status
 
