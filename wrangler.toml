@@ -1,6 +1,7 @@
 name = "ghost-reactions"
 main = "src/worker.js"
 compatibility_date = "2024-05-10"
+account_id = "8cf3d7f7d3a8badbfcd8096a1369f1f8"
 
 # CORRECTED: Durable Objects Binding Configuration
 [durable_objects]
