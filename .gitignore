@@ -35,5 +35,6 @@ build/
 out/
 
 # Package managers
-package-lock.json
-yarn.lock
+# Keep lockfiles in repo for reproducible CI installs
+# package-lock.json
+# yarn.lock
